@@ -130,3 +130,6 @@ dmypy.json
 
 .vscode
 catboost_info
+
+## artifacts
+artifact
