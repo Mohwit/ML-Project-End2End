@@ -56,7 +56,60 @@ class ModelTrainer:
                 'AdaBoost': AdaBoostRegressor()
             }
             
-            model_report:dict = evaluate_model(X_train =X_train, y_train = y_train, X_test=X_test, y_test=y_test, models = models)
+            logging.info('Declaring hyper parameters...')
+            params = {
+                'Random Forest': {
+                    # 'criterion': ['squared_error', 'friedman_mse', 'absolute_error', 'poisson'],
+                    # 'max_features': ['sqrt', 'log2'],
+                    'n_estimators': [8, 16, 32, 64, 128, 256]
+                },
+                
+                'Decision Forest': {
+                    'criterion':['squared_error', 'friedman_mse', 'absolute_error', 'poisson'],  
+                    # 'splitter':['best','random'],
+                    # 'max_features':['sqrt','log2']
+                },
+            
+                'Gradient Boosting': {
+                    # 'loss':['squared_error','huber','quantile', 'absolute_error'],
+                    'learning_rate':[0.1, .01, .001],
+                    'subsample':[0.67, 0.7, 0.75, 0.8, 0.9],
+                    # 'criterion':['friedman_mse','squarer_error'],
+                    # 'max_features':['sqrt','log2'],
+                    'n_estimators':[8, 16, 32, 64, 128, 256]
+                },
+                
+                'Linear Regression': {
+                    # 'fit_intercept':[True,False],
+                    # 'normalize':[True,False],
+                    # 'copy_X':[True,False]
+                },
+                
+                'K-Neighbours': {
+                    'n_neighbors':[3,5,7,9],
+                    # 'weights':['uniform','distance'],
+                    # 'algorithm':['auto','ball_tree','kd_tree','brute']
+                },
+                
+                'XGBoost': {
+                    'learning_rate':[0.1, 0.05, 0.01, 0.001],
+                    'max_depth':[3, 5, 7, 9],
+                    'n_estimators':[8, 16, 32, 64, 128, 256]
+                },
+                
+                'CatBoost': {
+                    'learning_rate':[0.1, 0.05, 0.01, 0.001],
+                    'depth':[3, 5, 7, 9],
+                    'iterations':[30, 50, 100, 200]
+                },
+                
+                'AdaBoost': {
+                    'learning_rate':[0.1, 0.05, 0.01, 0.001],
+                    'n_estimators':[8, 16, 32, 64, 128, 256]
+                }
+            }
+            
+            model_report:dict = evaluate_model(X_train =X_train, y_train = y_train, X_test=X_test, y_test=y_test, models = models, param=params)
             
             
             best_model_score = max(sorted(model_report.values()))
